@@ -1,11 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 //import {RouterProvider, createBrowserRouter} from 'react-router-dom'
+import reportWebVitals from './reportWebVitals';
 import './index.css';
 import App from './App';
+ 
+import { Provider } from 'react-redux';
+import { createStore , combineReducers} from 'redux';
+import { rootReducer } from './redux/rootReducer';
+ 
 
-import reportWebVitals from './reportWebVitals';
-import Items from './pages/Items';
+const finalReducer = combineReducers({
+  rootReducer:rootReducer
+})
+
+const initialState = {
+  rootReducer: {
+    cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) :[]
+
+  }
+}
+
+const store = createStore(finalReducer,initialState)
 
 // const router = createBrowserRouter([
 //   {
@@ -20,10 +36,10 @@ import Items from './pages/Items';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <Provider store={store}>
     {/* <RouterProvider router={router} /> */}
     <App />
-  </React.StrictMode>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
