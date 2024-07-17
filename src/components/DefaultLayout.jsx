@@ -1,7 +1,8 @@
-import React from 'react';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
+import React, { useEffect } from 'react';
+import { LaptopOutlined, NotificationOutlined, UserOutlined,ShoppingCartOutlined } from '@ant-design/icons';
 import {theme, Breadcrumb ,Typography ,Layout,Menu} from "antd";
-
+import { useSelector } from 'react-redux';
+ 
 
 const { Header, Content, Sider } = Layout;
 const items1 = ['Home', 'Bills', 'Items', 'Customers' ,'Logout'].map((key) => ({
@@ -26,6 +27,14 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, i
 
 
 const App = (props) => {
+
+  const { cartItems } = useSelector(state => state.rootReducer)
+  
+
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems))
+  },[cartItems])
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -46,7 +55,10 @@ const App = (props) => {
         }}
               >La Grace
                   
-      </Typography.Title>
+        </Typography.Title>
+        
+
+
         <Menu
           theme="dark"
           mode="horizontal"
@@ -57,12 +69,28 @@ const App = (props) => {
             minWidth: 0,
           }}
         />
+
+<ShoppingCartOutlined   
+        level={3}
+        style={{
+          margin: 5, background: colorBgContainer,
+        
+        }}/>
+
+<Typography.Paragraph
+        
+        level={3}
+        style={{
+          margin: 0,background: colorBgContainer,
+        }}
+              >{cartItems.length}</Typography.Paragraph>
       </Header>
       <Layout>
         <Sider
           width={200}
           style={{
             background: colorBgContainer,
+           
           }}
         >
           <Menu
