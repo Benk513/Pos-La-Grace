@@ -16,6 +16,23 @@ export const rootReducer = (state = initialState, action) => {
 
         }
        
+        case 'DELETE_ITEM': return {
+            ...state,
+            cartItems:state.cartItems.filter((item)=> item._id !== action.payload._id )
+
+        }
+
+        case 'SHOW_LOADING': return {
+            ...state,
+            loading: true
+        }
+        case 'HIDE_LOADING': return {
+            ...state,
+            loading: false
+        }
+        
+
+       
         default: return state
           
     }

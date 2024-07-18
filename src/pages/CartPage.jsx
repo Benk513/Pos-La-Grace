@@ -1,12 +1,21 @@
 import React from 'react'
 import { Table } from 'antd'
 import DefaultLayout from './../components/DefaultLayout'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { DeleteOutlined,PlusOutlined ,MinusOutlined} from '@ant-design/icons'
 const CartPage = () => {
-
     const {cartItems} = useSelector(state => state.rootReducer)
+    const dispatch = useDispatch()
 
+    
+    const increaseQuantity = (record) => {
+        dispatch({type:'UPDATE_CART', payload:{...record, quantity:record.quantity +1 }})
+    }
+    const decreaseQuantity = (record) => {
+        if (record.quantity !== 1) {            
+            dispatch({type:'UPDATE_CART', payload:{...record, quantity:record.quantity + -1 }})
+        }
+    }
 
     const dataSource =
         [
@@ -44,9 +53,9 @@ const columns = [
     title: 'Quantite',
       dataIndex: '_id',
       render: (id, record) => <div>
-          <PlusOutlined />
-          <b>{record.quantity}</b>
-          <MinusOutlined />
+          <PlusOutlined className='mx-3' onClick={()=> increaseQuantity(record)} />
+          <b>{record.quantity}</b> 
+          <MinusOutlined className='mx-3'  onClick={()=> decreaseQuantity(record)}  />
         
     </div>
   
@@ -54,7 +63,7 @@ const columns = [
   {
     title: 'Actions',
     dataIndex: '_id',
-    render:(id, record)  => <DeleteOutlined />
+    render:(id, record)  => <DeleteOutlined  onClick={() =>dispatch({type:'DELETE_ITEM' , paylaod:record})}/>
         }
   
 ];
