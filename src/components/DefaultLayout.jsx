@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined,ShoppingCartOutlined } from '@ant-design/icons';
 import {theme, Breadcrumb ,Typography ,Layout,Menu} from "antd";
 import { useSelector } from 'react-redux';
- 
+import {useNavigate} from 'react-router-dom';
 
 const { Header, Content, Sider } = Layout;
-const items1 = ['Home', 'Bills', 'Items', 'Customers' ,'Logout'].map((key) => ({
+const items1 = ['Home', 'Bills', 'Items' ,'Customers','Logout','cart'].map((key) => ({
   key,
-  label: `${key}`,
+  label:`${key}`,
 }));
 const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
   const key = String(index + 1);
@@ -27,6 +27,10 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, i
 
 
 const App = (props) => {
+
+  console.log(items1[1].label)
+
+  const navigate = useNavigate()
 
   const { cartItems } = useSelector(state => state.rootReducer)
   
@@ -52,7 +56,8 @@ const App = (props) => {
         level={3}
         style={{
           margin: 0,background: colorBgContainer,
-        }}
+          }}
+          onClick={()=> navigate('/')}
               >La Grace
                   
         </Typography.Title>
@@ -68,6 +73,11 @@ const App = (props) => {
             flex: 1,
             minWidth: 0,
           }}
+          onClick={
+            (e) => {
+              navigate(e.key)
+
+            }}
         />
 
 <ShoppingCartOutlined   
@@ -75,15 +85,15 @@ const App = (props) => {
         style={{
           margin: 5, background: colorBgContainer,
         
-        }}/>
+        }} onClick={()=> navigate('/cart')}/>
 
-<Typography.Paragraph
+<Typography.Title
         
         level={3}
         style={{
           margin: 0,background: colorBgContainer,
         }}
-              >{cartItems.length}</Typography.Paragraph>
+              >{cartItems.length}</Typography.Title>
       </Header>
       <Layout>
         <Sider
@@ -135,3 +145,12 @@ const App = (props) => {
   );
 };
 export default App;
+
+
+
+
+
+
+
+
+// [{  title: 'Home',  link: '/'}, { title:'Bills', link: '/bills'  }, { title:'Items', link: '/items' }, {title: 'Customers', link:'/customers' }, { title:'Logout',link: '/logout' }]
