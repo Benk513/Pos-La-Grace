@@ -2,8 +2,9 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 
 const Item = ({ item }) => {
-
     const dispatch = useDispatch()
+
+    
     function addToCart() {
         dispatch({
             type: 'ADD_TO_CART',

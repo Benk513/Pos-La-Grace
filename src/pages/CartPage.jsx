@@ -1,10 +1,15 @@
 import React from 'react'
-import {Table} from 'antd'
+import { Table } from 'antd'
 import DefaultLayout from './../components/DefaultLayout'
+import { useSelector } from 'react-redux'
+import { DeleteOutlined,PlusOutlined ,MinusOutlined} from '@ant-design/icons'
 const CartPage = () => {
 
+    const {cartItems} = useSelector(state => state.rootReducer)
 
-    const dataSource = [
+
+    const dataSource =
+        [
   {
     key: '1',
     name: 'Mike',
@@ -23,7 +28,7 @@ const columns = [
   {
     title: 'Image',
     dataIndex: 'image',
-    key: 'image',
+    render :(image,record) => <img src ={image} alt="" height="60" width="60"/>
   },
   {
     title: 'Nom',
@@ -37,14 +42,21 @@ const columns = [
   },
   {
     title: 'Quantite',
-    dataIndex: 'quantity',
-    key: 'quantity',
+      dataIndex: '_id',
+      render: (id, record) => <div>
+          <PlusOutlined />
+          <b>{record.quantity}</b>
+          <MinusOutlined />
+        
+    </div>
+  
   },
   {
     title: 'Actions',
-    dataIndex: 'actions',
-    key: 'actions',
-  },
+    dataIndex: '_id',
+    render:(id, record)  => <DeleteOutlined />
+        }
+  
 ];
 
   return (
@@ -52,7 +64,7 @@ const columns = [
           <h2>Cart</h2>
 
 
-<Table dataSource={dataSource} columns={columns} />;
+<Table dataSource={cartItems} columns={columns} />;
    </DefaultLayout>
   )
 }
