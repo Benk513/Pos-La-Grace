@@ -1,6 +1,6 @@
  import DefaultLayout from './../components/DefaultLayout'
 import React, { useEffect, useState } from 'react'
-import { Button, Modal, Table } from 'antd'
+import { Button, Modal, Table,Checkbox, Form, Input  } from 'antd'
 import {Typography} from 'antd'
 import axios from 'axios'
 import { Row, Col } from 'antd'
@@ -32,6 +32,14 @@ const Items = () => {
   }
   
 
+
+  const onFinish = (values) => {
+    console.log('Success:', values);
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+   
 
   const columns = [
     {
@@ -85,12 +93,82 @@ const Items = () => {
       <Table columns={columns} dataSource={itemsData} bordered />
       
 
-      <Modal visible={addEditModalVisibility} title="Add New Item" footer={true}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos dignissimos minima reiciendis sequi itaque saepe, non corrupti praesentium provident, similique ducimus quo alias fugiat omnis eveniet numquam et exercitationem! Enim.
-      </Modal>
+      <Modal onCancel={()=>setAddEditModalVisibility(false)} visible={addEditModalVisibility} title="Add New Item" footer={true}>
+      <Form
+    name="basic"
+    labelCol={{
+      span: 8,
+    }}
+    wrapperCol={{
+      span: 16,
+    }}
+    style={{
+      maxWidth: 600,
+    }}
+    initialValues={{
+      remember: true,
+    }}
+    onFinish={onFinish}
+    onFinishFailed={onFinishFailed}
+    autoComplete="off"
+  >
+    <Form.Item
+      label="Username"
+      name="username"
+      rules={[
+        {
+          required: true,
+          message: 'Please input your username!',
+        },
+      ]}
+    >
+      <Input />
+    </Form.Item>
+
+    <Form.Item
+      label="Password"
+      name="password"
+      rules={[
+        {
+          required: true,
+          message: 'Please input your password!',
+        },
+      ]}
+    >
+      <Input.Password />
+    </Form.Item>
+
+    <Form.Item
+      name="remember"
+      valuePropName="checked"
+      wrapperCol={{
+        offset: 8,
+        span: 16,
+      }}
+    >
+      <Checkbox>Remember me</Checkbox>
+    </Form.Item>
+
+    <Form.Item
+      wrapperCol={{
+        offset: 8,
+        span: 16,
+      }}
+    >
+      <Button type="primary" htmlType="submit">
+        Submit
+      </Button>
+    </Form.Item>
+  </Form>
+      </Modal> 
     
     </DefaultLayout>
   )
 }
 
 export default Items
+
+
+
+
+
