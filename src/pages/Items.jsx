@@ -1,6 +1,6 @@
  import DefaultLayout from './../components/DefaultLayout'
 import React, { useEffect, useState } from 'react'
-import { Button, Modal, Table,Checkbox, Form, Input  } from 'antd'
+import { Button, Modal, Table,Checkbox, Form, Input, Select  } from 'antd'
 import {Typography} from 'antd'
 import axios from 'axios'
 import { Row, Col } from 'antd'
@@ -94,17 +94,11 @@ const Items = () => {
       
 
       <Modal onCancel={()=>setAddEditModalVisibility(false)} visible={addEditModalVisibility} title="Add New Item" footer={true}>
-      <Form
+        <Form
+          layout='vertical'
     name="basic"
-    labelCol={{
-      span: 8,
-    }}
-    wrapperCol={{
-      span: 16,
-    }}
-    style={{
-      maxWidth: 600,
-    }}
+     
+    
     initialValues={{
       remember: true,
     }}
@@ -113,12 +107,12 @@ const Items = () => {
     autoComplete="off"
   >
     <Form.Item
-      label="Username"
-      name="username"
+      label="Nom du Produit"
+      name="name"
       rules={[
         {
           required: true,
-          message: 'Please input your username!',
+          message: 'Inserez le nom du produit !',
         },
       ]}
     >
@@ -126,28 +120,49 @@ const Items = () => {
     </Form.Item>
 
     <Form.Item
-      label="Password"
-      name="password"
+      label="Prix du Produit "
+      name="price"
       rules={[
         {
           required: true,
-          message: 'Please input your password!',
+          message: 'Inserez le prix du produit !',
         },
       ]}
     >
-      <Input.Password />
+      <Input />
+          </Form.Item>
+          
+    <Form.Item
+      label="L'URL Image du Produit"
+      name="image"
+      rules={[
+        {
+          required: true,
+          message: 'Inserez l\'image du produit !',
+        },
+      ]}
+    >
+      <Input />
+    </Form.Item>
+ 
+    <Form.Item
+      label="Categorie du Produit"
+      name="category"
+      rules={[
+        {
+          required: true,
+          message: 'Inserez l\'image du produit !',
+        },
+      ]}
+    >
+            <Select>
+              <Select.Option value='fruits'>Fruits</Select.Option>
+              <Select.Option value='legumes'>Legumes</Select.Option>
+              <Select.Option value='meat'>Viande</Select.Option>
+      </Select>
     </Form.Item>
 
-    <Form.Item
-      name="remember"
-      valuePropName="checked"
-      wrapperCol={{
-        offset: 8,
-        span: 16,
-      }}
-    >
-      <Checkbox>Remember me</Checkbox>
-    </Form.Item>
+         
 
     <Form.Item
       wrapperCol={{
@@ -156,7 +171,7 @@ const Items = () => {
       }}
     >
       <Button type="primary" htmlType="submit">
-        Submit
+        Ajouter
       </Button>
     </Form.Item>
   </Form>
