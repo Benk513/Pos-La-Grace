@@ -1,6 +1,6 @@
  import DefaultLayout from './../components/DefaultLayout'
 import React, { useEffect, useState } from 'react'
-import { Button, Table } from 'antd'
+import { Button, Modal, Table } from 'antd'
 import {Typography} from 'antd'
 import axios from 'axios'
 import { Row, Col } from 'antd'
@@ -82,7 +82,12 @@ const Items = () => {
           type='primary'
         onClick={()=>setAddEditModalVisibility(true)}>Ajouter un Produit</Button>
       </div>
-      <Table columns={columns} dataSource={itemsData} bordered/>
+      <Table columns={columns} dataSource={itemsData} bordered />
+      
+
+      <Modal visible={addEditModalVisibility} title="Add New Item" footer={true}>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos dignissimos minima reiciendis sequi itaque saepe, non corrupti praesentium provident, similique ducimus quo alias fugiat omnis eveniet numquam et exercitationem! Enim.
+      </Modal>
     
     </DefaultLayout>
   )
