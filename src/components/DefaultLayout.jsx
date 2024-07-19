@@ -32,7 +32,7 @@ const App = (props) => {
 
   const navigate = useNavigate()
 
-  const { cartItems } = useSelector(state => state.rootReducer)
+  const { cartItems ,loading } = useSelector(state => state.rootReducer)
   
 
   useEffect(() => {
@@ -44,6 +44,12 @@ const App = (props) => {
   } = theme.useToken();
   return (
     <Layout>
+      {loading && (
+           <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div> 
+         
+      )}
       <Header
         style={{
           display: 'flex',
@@ -119,6 +125,7 @@ const App = (props) => {
             padding: '0 24px 24px',
           }}
         >
+        
           <Breadcrumb
             style={{
               margin: '16px 0',
