@@ -11,7 +11,7 @@ import { DeleteOutlined,PlusOutlined ,MinusOutlined, EditOutlined} from '@ant-de
 const Items = () => {
 
   const [itemsData, setItemsData] = useState([])
-  const [addEditModalVisibility, setAddEditModalVisibility]
+  const [addEditModalVisibility, setAddEditModalVisibility] =useState(false)
   const dispatch = useDispatch()
 
   const getAllItems = () => {
@@ -77,7 +77,10 @@ const Items = () => {
     <DefaultLayout>
        
       <div className="d-flex justify-content-between">
-          <Typography.Title>Produits</Typography.Title>  <Button type='primary'>Ajouter un Produit</Button>
+        <Typography.Title>Produits</Typography.Title>
+        <Button
+          type='primary'
+        onClick={()=>setAddEditModalVisibility(true)}>Ajouter un Produit</Button>
       </div>
       <Table columns={columns} dataSource={itemsData} bordered/>
     
