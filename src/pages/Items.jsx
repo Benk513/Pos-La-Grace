@@ -39,23 +39,45 @@ const Items = () => {
     dispatch({ type: 'SHOW_LOADING' })
 
 
-    axios.post('http://localhost:5000/api/items/add-item',values).then((res) => {
-      dispatch({ type: 'HIDE_LOADING' })
-      setItemsData(res.data.data)
-
-      message.success('Item added successfully')
-      setAddEditModalVisibility(false)
-      getAllItems()
-      console.log(res.data.data)
-
-
-      if (res.status === 200) console.log('ca marche chez le client')
-    }).catch(error => {
-      console.log(error)
-      dispatch({ type: 'HIDE_LOADING' })
-      message.error('Something went wrong')
-
-    })
+    if (editingItem === null) {
+      axios.post('http://localhost:5000/api/items/add-item',values).then((res) => {
+        dispatch({ type: 'HIDE_LOADING' })
+        setItemsData(res.data.data)
+  
+        message.success('Item added successfully')
+        setAddEditModalVisibility(false)
+        getAllItems()
+        console.log(res.data.data)
+  
+  
+        if (res.status === 200) console.log('ca marche chez le client')
+      }).catch(error => {
+        console.log(error)
+        dispatch({ type: 'HIDE_LOADING' })
+        message.error('Something went wrong')
+  
+      })
+    }
+    else {
+      axios.post('http://localhost:5000/api/items/edit-item', {...values, itemId : editingItem._id}).then((res) => {
+        dispatch({ type: 'HIDE_LOADING' })
+        setItemsData(res.data.data)
+  
+        message.success('Item Edited successfully')
+        setEditingItem(null)
+        setAddEditModalVisibility(false)
+        getAllItems()
+        console.log(res.data.data)
+  
+  
+        if (res.status === 200) console.log('ca marche chez le client')
+      }).catch(error => {
+        console.log(error)
+        dispatch({ type: 'HIDE_LOADING' })
+        message.error('Something went wrong')
+  
+      })
+    }
 
   }
 
@@ -126,9 +148,14 @@ const Items = () => {
         onClick={()=>setAddEditModalVisibility(true)}>Ajouter un Produit</Button>
       </div>
       <Table columns={columns} dataSource={itemsData} bordered />
-      
 
-      <Modal onCancel={()=>setAddEditModalVisibility(false)} visible={addEditModalVisibility} title="Add New Item" footer={true}>
+      {addEditModalVisibility && (
+        <Modal onCancel={() => {
+          setAddEditModalVisibility(false)
+          setEditingItem(null)
+        }}
+          visible={addEditModalVisibility}
+          title={ `${editingItem !== null ? "Modifier le Produit " :"Ajouter un Produit"}` } footer={true}>
         <Form
            
           layout='vertical'
@@ -205,11 +232,15 @@ const Items = () => {
       }}
     >
       <Button type="primary" htmlType="submit">
-        Ajouter
+        Enregistrer
       </Button>
     </Form.Item>
   </Form>
       </Modal> 
+      )}
+      
+
+     
     
     </DefaultLayout>
   )
