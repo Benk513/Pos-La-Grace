@@ -9,6 +9,26 @@ import { useDispatch } from 'react-redux'
 const HomePage = () => {
 
   const [itemsData, setItemsData] = useState([])
+
+  const [selectedCategory , setSelectedCategory] = useState('fruits')
+  const categories = [
+    {
+      name: "fruits",
+      image: "https://th.bing.com/th/id/OIP.deix5a89eBlJW7ZtfwfovAHaFb?w=249&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    },
+    {
+      name: "legumes",
+      image: "https://th.bing.com/th/id/OIP.deix5a89eBlJW7ZtfwfovAHaFb?w=249&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    },
+    {
+      name: "viandes",
+      image: "https://th.bing.com/th/id/OIP.deix5a89eBlJW7ZtfwfovAHaFb?w=249&h=183&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    }
+  ]
+
+
+
+
   const dispatch = useDispatch()
 
   const getAllItems = () => {
@@ -36,8 +56,21 @@ const HomePage = () => {
   return (
     <DefaultLayout>
       
+      <div className='d-flex flex-row mb-3 gap-5'>
+        {categories.map((category) => {
+          return <div
+            onClick={() => {setSelectedCategory(category.name)}}
+            className={`d-flex mx-10 text-info ${selectedCategory === category.name && 'success'}`}>
+            <h5 className={`d-flex mx-10  ${selectedCategory === category.name ? 'text-success' :'text-dark'} `}> {category.name }</h5>
+       
+        </div>
+        })}
+        
+
+      </div>
+      
       <Row>
-        {itemsData.map((item) => {
+        {itemsData.filter((i) => i.category === selectedCategory).map((item) => {
           
           return <Col span={6}> <Item item={item} /></Col>
               
