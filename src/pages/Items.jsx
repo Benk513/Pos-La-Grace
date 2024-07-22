@@ -82,6 +82,29 @@ const Items = () => {
   }
 
 
+  const deleteItem = (record) => {
+    dispatch({ type: 'SHOW_LOADING' })
+    
+    axios.post('http://localhost:5000/api/items/delete-item', {itemId : record._id}).then((res) => {
+      dispatch({ type: 'HIDE_LOADING' })
+      
+
+      message.success('Produit supprimé avec success')
+      setAddEditModalVisibility(false)
+      getAllItems()
+      console.log(res.data.data)
+
+
+       
+    }).catch(error => {
+      console.log(error)
+      dispatch({ type: 'HIDE_LOADING' })
+      message.error('Erreur de suppression')
+
+    })
+    
+  }
+
 
 
    
@@ -123,7 +146,7 @@ const Items = () => {
             
            
         }} />
-        <DeleteOutlined />
+        <DeleteOutlined onClick={()=>deleteItem(record)} />
         
 
       </div>)

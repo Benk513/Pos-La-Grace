@@ -63,7 +63,7 @@ const columns = [
   {
     title: 'Actions',
     dataIndex: '_id',
-    render:(id, record)  => <DeleteOutlined  onClick={() =>dispatch({type:'DELETE_ITEM' , paylaod:record})}/>
+    render:(id, record)  => <DeleteOutlined  onClick={() =>dispatch({type:'DELETE_ITEM' , paylaod:record._id})}/>
         }
   
 ];

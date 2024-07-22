@@ -18,7 +18,7 @@ export const rootReducer = (state = initialState, action) => {
        
         case 'DELETE_ITEM': return {
             ...state,
-            cartItems:state.cartItems.filter((item)=> item._id !== action.payload._id )
+            cartItems: state.cartItems.filter((item) => item._id !== action.payload._id)
 
         }
 
