@@ -1,30 +1,29 @@
  import DefaultLayout from './../components/DefaultLayout'
 import React, { useEffect, useState } from 'react'
-import { Button, Modal, Table,Checkbox, Form, Input, Select  } from 'antd'
+import { Button, Modal, Table, Form, Input, Select,message  } from 'antd'
 import {Typography} from 'antd'
 import axios from 'axios'
-import { Row, Col } from 'antd'
-import Item from './../components/Item'
 import { useDispatch } from 'react-redux'
-import { DeleteOutlined,PlusOutlined ,MinusOutlined, EditOutlined} from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined} from '@ant-design/icons'
 
 const Items = () => {
 
   const [itemsData, setItemsData] = useState([])
-  const [addEditModalVisibility, setAddEditModalVisibility] =useState(false)
+  const [addEditModalVisibility, setAddEditModalVisibility] = useState(false)
+  const [editingItem, setEditingItem] = useState(null)
   const dispatch = useDispatch()
 
   const getAllItems = () => {
 
-    dispatch({type:'SHOW_LOADING'})
+    dispatch({ type: 'SHOW_LOADING' })
 
 
     axios.get('http://localhost:5000/api/items/').then((res) => {
       dispatch({ type: 'HIDE_LOADING' })
-    setItemsData(res.data.data)
-    console.log(res.data.data)
+      setItemsData(res.data.data)
+      console.log(res.data.data)
 
-    if(res.status ===200) console.log('ca marche chez le client')
+      if (res.status === 200) console.log('ca marche chez le client')
     }).catch(error => {
       console.log(error)
       dispatch({ type: 'HIDE_LOADING' })
@@ -35,8 +34,37 @@ const Items = () => {
 
   const onFinish = (values) => {
     console.log('Success:', values);
-  };
+
+    
+    dispatch({ type: 'SHOW_LOADING' })
+
+
+    axios.post('http://localhost:5000/api/items/add-item',values).then((res) => {
+      dispatch({ type: 'HIDE_LOADING' })
+      setItemsData(res.data.data)
+
+      message.success('Item added successfully')
+      setAddEditModalVisibility(false)
+      getAllItems()
+      console.log(res.data.data)
+
+
+      if (res.status === 200) console.log('ca marche chez le client')
+    }).catch(error => {
+      console.log(error)
+      dispatch({ type: 'HIDE_LOADING' })
+      message.error('Something went wrong')
+
+    })
+
+  }
+
+
+
+
+   
   const onFinishFailed = (errorInfo) => {
+    
     console.log('Failed:', errorInfo);
   };
    
@@ -67,8 +95,15 @@ const Items = () => {
       title: 'Actions',
       dataIndex: '_id',
       render: (id, record) => (<div className='d-flex'>
+        <EditOutlined onClick={() => {
+          setEditingItem(record)
+          setAddEditModalVisibility(true)
+            
+           
+        }} />
         <DeleteOutlined />
-        <EditOutlined/>
+        
+
       </div>)
           }
     
@@ -95,13 +130,12 @@ const Items = () => {
 
       <Modal onCancel={()=>setAddEditModalVisibility(false)} visible={addEditModalVisibility} title="Add New Item" footer={true}>
         <Form
+           
           layout='vertical'
-    name="basic"
+          name="basic"
+          
      
-    
-    initialValues={{
-      remember: true,
-    }}
+     initialValues={editingItem}
     onFinish={onFinish}
     onFinishFailed={onFinishFailed}
     autoComplete="off"
