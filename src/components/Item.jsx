@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import {Button} from 'antd'
 
 const Item = ({ item }) => {
     const dispatch = useDispatch()
@@ -14,13 +15,15 @@ const Item = ({ item }) => {
     }
 
 
-
   return (
       <div>
-          <h4>TItle</h4>
-          <img src="" alt="" width="100" height="100" />
-          <h4>Price : 25$</h4>
-          <button onClick={()=>addToCart()}>Add to cart</button>
+          <h4>{item.name.toUpperCase() }</h4>
+          <img src={item.image}alt="" width="100" height="100" />
+          <h4>Prix :  { item.price}</h4>
+          
+          <Button
+          type='primary'
+        onClick={() => addToCart()}>Ajouter un Produit</Button>
     </div>
   )
 }
